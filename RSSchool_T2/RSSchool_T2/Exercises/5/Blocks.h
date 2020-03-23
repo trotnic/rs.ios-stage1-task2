@@ -6,8 +6,9 @@ typedef void (^BlockC)(NSObject *result);
 
 @interface Blocks : NSObject
 
-@property (nonatomic) BlockA blockA;
-@property (nonatomic) BlockB blockB;
-@property (nonatomic) BlockC blockC;
+@property (nonatomic, copy) BlockA blockA;
+@property (nonatomic, strong) NSArray* array;
+@property (nonatomic, copy) BlockB blockB;
+@property (nonatomic, copy) BlockC blockC;
 
 @end
