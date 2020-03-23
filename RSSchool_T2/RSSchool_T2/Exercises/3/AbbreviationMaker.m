@@ -9,6 +9,8 @@
     
     NSInteger counter = 0;
     
+    //trotnic's watermark
+    
     for(NSInteger i = 0; i < [a length]; i++) {
         if([aCopy characterAtIndex:i] == [bCopy characterAtIndex:counter]) {
             counter++;

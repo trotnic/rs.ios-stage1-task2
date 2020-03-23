@@ -29,6 +29,7 @@
         controlSet = [NSCharacterSet characterSetWithCharactersInString:@"eyuioa"];
     } else {
         controlSet = [NSCharacterSet characterSetWithCharactersInString:@"qwrtpsdfghjklzxcvbnm"];
+    //trotnic's watermark
     }
     
     regex = [NSRegularExpression regularExpressionWithPattern:@"\\s+" options:0 error:nil];
@@ -50,6 +51,7 @@
         }
         [result replaceObjectAtIndex:idx withObject:[[NSString alloc] initWithFormat:@"%ld%@ ", (long)counter, objCopy]];
     }];
+    //trotnic's watermark
     
     // Sort by the former digit
     [result sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {

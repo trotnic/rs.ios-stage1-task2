@@ -4,8 +4,6 @@
 // Complete the following function
 //trotnic's watermark
 - (NSString*)convertFromHours:(NSString*)hours minutes:(NSString*)minutes {
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    [formatter setNumberStyle:NSNumberFormatterSpellOutStyle];
     NSInteger hoursInt = [hours intValue];
     NSInteger minutesInt = [minutes intValue];
     
@@ -17,23 +15,24 @@
     
     NSArray<NSString*> *singleDigits = @[@"zero", @"one", @"two", @"three", @"four", @"five", @"six", @"seven", @"eight", @"nine"];
     NSArray<NSString*> *twoDigits = @[@"ten", @"eleven", @"twelve", @"thirteen", @"fourteen", @"fifteen", @"sixteen", @"seventeen", @"eighteen", @"nineteen"];
-    NSArray<NSString*> *tensMultiple = @[@"twenty", @"thirty", @"fourthy", @"fifty"];
     
-    if(minutesInt < 0 || minutesInt >= 60 || hoursInt < 0 || hoursInt >= 24) {
+    if(minutesInt < 0 || minutesInt > 59 || hoursInt < 0 || hoursInt > 23) {
         return @"";
     }
     
     if(minutesInt < 60 && minutesInt > 30) {
-        if((60 - minutesInt) == 15) {
+        NSUInteger minutesRemainder = (60 - minutesInt);
+        if(minutesRemainder == 15) {
             minutesString = @"quarter";
         } else {
-            NSString *minutesCopy = [NSString stringWithFormat:@"%ld", (60 - minutesInt)];
+            NSUInteger minutesModule = (minutesRemainder % 10);
+            NSString *minutesCopy = [NSString stringWithFormat:@"%ld", minutesRemainder];
             if([minutesCopy length] == 1) {
                 minutesString = [singleDigits objectAtIndex:[minutesCopy intValue]];
             } else if([[minutesCopy substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"1"]) {
-                minutesString = [twoDigits objectAtIndex:((60 - minutesInt) % 10)];
+                minutesString = [twoDigits objectAtIndex:minutesModule];
             } else if([[minutesCopy substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"2"]) {
-                minutesString = [NSString stringWithFormat:@"%@ %@",[tensMultiple objectAtIndex:0], [singleDigits objectAtIndex:((60 - minutesInt) % 10)]];
+                minutesString = [NSString stringWithFormat:@"%@ %@",@"twenty", [singleDigits objectAtIndex:minutesModule]];
             }
             minutesPostfix = @" minutes";
         }
@@ -43,12 +42,13 @@
         if(minutesInt == 15) {
             minutesString = @"quarter";
         } else {
+            NSUInteger minutesModule = (minutesInt % 10);
             if([[minutes substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"1"]) {
-                minutesString = [twoDigits objectAtIndex:(minutesInt % 10)];
+                minutesString = [twoDigits objectAtIndex:minutesModule];
             } else if([[minutes substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"2"]) {
-                minutesString = [NSString stringWithFormat:@"%@ %@", [tensMultiple objectAtIndex:0], [singleDigits objectAtIndex:(minutesInt % 10)]];
+                minutesString = [NSString stringWithFormat:@"%@ %@", @"twenty", [singleDigits objectAtIndex:minutesModule]];
             } else if([[minutes substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"0"]) {
-                minutesString = [singleDigits objectAtIndex:(minutesInt % 10)];
+                minutesString = [singleDigits objectAtIndex:minutesModule];
             }
             minutesPostfix = @" minutes";
         }
@@ -77,8 +77,5 @@
 
     
 }
-
-
-
 //trotnic's watermark
 @end
